@@ -12,6 +12,10 @@ from copy import deepcopy
 import random
 from tqdm import tqdm
 
+import warnings
+warnings.filterwarnings("ignore")
+
+
 learning_rate = 2e-5
 batch_size = 5
 global_batch_size = 5
@@ -491,7 +495,8 @@ if delay_critic:
         if val_acc > best_val_acc:
             torch.save(criticModel.state_dict(), 'savedModels/critic_with_delay.pt') 
             best_val_acc = val_acc
-            print("saved Model with acc: ", val_acc)
+            print("critic with delay, saved Model with acc: ", val_acc)
+        print("critic with delay=true")
         print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
 else:
     for epoch in range(1):
@@ -501,14 +506,16 @@ else:
         if val_acc > best_val_acc:
             torch.save(criticModel.state_dict(), 'savedModels/critic_without_delay.pt')
             best_val_acc = val_acc
+        print("critic delay =false")
         print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
 
 
 criticModel.load_state_dict(torch.load('savedModels/critic_with_delay.pt'))
 _, best_val_acc = eval_model(criticModel, valid_iter)
-print(best_val_acc)
+print("eval model critic model", best_val_acc)
 _, best_val_acc = eval_model(criticModel, train_iter)
 print(best_val_acc)
+
 #val_loss, val_acc = eval_model(criticModel, valid_iter)
 #test_loss, test_acc = eval_model(criticModel, test_iter)
 #train_loss, train_acc = eval_model(criticModel, train_iter)
@@ -542,7 +549,7 @@ best_val_acc1=0
 for epoch in range(1):
     train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch, LSTM_train = False) #
     val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
-    print("generated again:", val_acc)
+    print("actor with delay", val_acc)
     if val_acc > best_val_acc1:
         torch.save(actorModel.state_dict(), 'savedModels/actor_with_delay.pt')
         best_val_acc1 = val_acc
@@ -553,7 +560,7 @@ actorModel.load_state_dict(torch.load('savedModels/actor_with_delay.pt'))
 print("Model Loaded..")
 
 val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
-print(val_acc)
+print("eval_model_RL", val_acc)
 
 # criticModel.load_state_dict(torch.load('savedModels/critic_with_delay_joint.pt'))
 # actorModel.load_state_dict(torch.load('savedModels/actor_with_delay_joint.pt')) 
@@ -562,7 +569,7 @@ print(val_acc)
 # _, best_val_acc2 = eval_model_RL(criticModel, actorModel, train_iter)
 # print(best_val_acc2)
 # asasa
-for epoch in range(0):
+for epoch in range(1):
     train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch)
     val_loss, val_acc = eval_model_RL(criticModel, actorModel, valid_iter)
     print(val_acc)
@@ -570,13 +577,13 @@ for epoch in range(0):
         torch.save(actorModel.state_dict(), 'savedModels/actor_with_delay_joint.pt')
         torch.save(criticModel.state_dict(), 'savedModels/critic_with_delay_joint.pt')
         best_val_acc2 = val_acc  
-        print("----Mdoel Saved-----") 
+        print("---actor/critic with delay Model Saved-----") 
     
 
 criticModel.load_state_dict(torch.load('savedModels/critic_with_delay_joint.pt'))
 actorModel.load_state_dict(torch.load('savedModels/actor_with_delay_joint.pt')) 
 test_loss, test_acc = eval_model_RL(criticModel, actorModel, valid_iter)
-print(test_acc)
+print("eval_model_RL", test_acc)
 test_loss, test_acc = eval_model_RL(criticModel, actorModel, test_iter)
 print(test_acc)
 
