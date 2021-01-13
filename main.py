@@ -545,23 +545,23 @@ print(best_val_acc2)
 '''
 
 # best_val_acc1 = 810.5
-best_val_acc1=0
-for epoch in range(1):
-    print("actor part")
-    train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch, LSTM_train = False) #
-    val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
-    print("actor with delay", val_acc)
-    if val_acc > best_val_acc1:
-        torch.save(actorModel.state_dict(), 'savedModels/actor_with_delay.pt')
-        best_val_acc1 = val_acc
-    print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
-print("Reinforcement Done!!!!")
+# best_val_acc1=0
+# for epoch in range(1):
+#     print("actor part")
+#     train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch, LSTM_train = False) #
+#     val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
+#     print("actor with delay", val_acc)
+#     if val_acc > best_val_acc1:
+#         torch.save(actorModel.state_dict(), 'savedModels/actor_with_delay.pt')
+#         best_val_acc1 = val_acc
+#     print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
+# print("Reinforcement Done!!!!")
 
-actorModel.load_state_dict(torch.load('savedModels/actor_with_delay.pt'))
-print("Model Loaded..")
+# actorModel.load_state_dict(torch.load('savedModels/actor_with_delay.pt'))
+# print("Model Loaded..")
 
-val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
-print("eval_model_RL", val_acc)
+# val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
+# print("eval_model_RL", val_acc)
 
 # criticModel.load_state_dict(torch.load('savedModels/critic_with_delay_joint.pt'))
 # actorModel.load_state_dict(torch.load('savedModels/actor_with_delay_joint.pt')) 
