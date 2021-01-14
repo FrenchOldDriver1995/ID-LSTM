@@ -30,7 +30,7 @@ def load_dataset(test_sen=None, batch_size=32):
     TEXT = data.Field(sequential=True, tokenize=tokenize, lower=True, include_lengths=True, batch_first=True, fix_length=200)
     LABEL = data.LabelField()
     # train_data, test_data = datasets.IMDB.splits(TEXT, LABEL)
-    train_data, test_data = datasets.IWSLT.splits(TEXT, LABEL)
+    train_data, test_data = datasets.SST.splits(TEXT, LABEL)
     TEXT.build_vocab(train_data, vectors="glove.6B.300d")
     LABEL.build_vocab(train_data)
 
