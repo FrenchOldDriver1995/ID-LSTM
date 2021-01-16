@@ -493,7 +493,7 @@ if delay_critic:
         val_loss, val_acc = eval_model(criticModel, valid_iter)
         print("epoch  ", epoch,  " val acc", val_acc)
         if val_acc > best_val_acc:
-            torch.save(criticModel.state_dict(), '/content/drive/My Drive/researchHub/ID-LSTM/savedModels/critic_with_delay.pt') 
+            torch.save(criticModel.state_dict(), 'critic_with_delay.pt') 
             best_val_acc = val_acc
             print("critic with delay, saved Model with acc: ", val_acc)
         print("critic with delay=true")
@@ -504,7 +504,7 @@ else:
         val_loss, val_acc = eval_model(criticModel, valid_iter)
         print("val acc generated for delay critic=false")
         if val_acc > best_val_acc:
-            torch.save(criticModel.state_dict(), '/content/drive/My Drive/researchHub/ID-LSTM/savedModels/critic_without_delay.pt')
+            torch.save(criticModel.state_dict(), 'critic_without_delay.pt')
             best_val_acc = val_acc
         print("critic delay =false")
         print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
