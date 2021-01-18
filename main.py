@@ -486,28 +486,28 @@ best_val_acc = 0.
 # print(best_val_acc)
 
 
-# if delay_critic:
-#     for epoch in range(10):
-#         print("Pre-training Critic...")
-#         train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch, RL_train = False)
-#         val_loss, val_acc = eval_model(criticModel, valid_iter)
-#         print("epoch  ", epoch,  " val acc", val_acc)
-#         if val_acc > best_val_acc:
-#             torch.save(criticModel.state_dict(), 'savedModels/critic_with_delay.pt') 
-#             best_val_acc = val_acc
-#             print("critic with delay, saved Model with acc: ", val_acc)
-#         print("critic with delay=true")
-#         print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
-# else:
-#     for epoch in range(10):
-#         train_loss, train_acc = train_model_without_delay(criticModel, train_iter, epoch)
-#         val_loss, val_acc = eval_model(criticModel, valid_iter)
-#         print("val acc generated for delay critic=false")
-#         if val_acc > best_val_acc:
-#             torch.save(criticModel.state_dict(), 'savedModels/critic_without_delay.pt')
-#             best_val_acc = val_acc
-#         print("critic delay =false")
-#         print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
+if delay_critic:
+    for epoch in range(10):
+        print("Pre-training Critic...")
+        train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch, RL_train = False)
+        val_loss, val_acc = eval_model(criticModel, valid_iter)
+        print("epoch  ", epoch,  " val acc", val_acc)
+        if val_acc > best_val_acc:
+            torch.save(criticModel.state_dict(), 'savedModels/critic_with_delay.pt') 
+            best_val_acc = val_acc
+            print("critic with delay, saved Model with acc: ", val_acc)
+        print("critic with delay=true")
+        print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
+else:
+    for epoch in range(10):
+        train_loss, train_acc = train_model_without_delay(criticModel, train_iter, epoch)
+        val_loss, val_acc = eval_model(criticModel, valid_iter)
+        print("val acc generated for delay critic=false")
+        if val_acc > best_val_acc:
+            torch.save(criticModel.state_dict(), 'savedModels/critic_without_delay.pt')
+            best_val_acc = val_acc
+        print("critic delay =false")
+        print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
 
 
 # criticModel.load_state_dict(torch.load('savedModels/critic_with_delay.pt'))
@@ -517,8 +517,8 @@ best_val_acc = 0.
 # # print(best_val_acc)
 
 # val_loss, val_acc = eval_model(criticModel, valid_iter)
-# test_loss, test_acc = eval_model(criticModel, test_iter) #训练完之后，这里获得test acc
-# print(" test acc, ", test_acc)
+test_loss, test_acc = eval_model(criticModel, test_iter) #训练完之后，这里获得test acc
+print(" test acc, ", test_acc)
 # train_loss, train_acc = eval_model(criticModel, train_iter)
 # epoch = 0
 # print("LSTM Pretraining Done: ")
@@ -544,29 +544,29 @@ print(best_val_acc2)
 _, best_val_acc2 = eval_model_RL(criticModel, actorModel, train_iter)
 print(best_val_acc2)
 '''
-criticModel.load_state_dict(torch.load('savedModels/critic_with_delay.pt')) #我加的这句
-actorModel.load_state_dict(torch.load('savedModels/actor_with_delay.pt')) #我加的这句，目的是直接导入已经训练的模型
-# best_val_acc1 = 810.5
-best_val_acc1=0
-for epoch in range(8):
-    print("actor part")
-    train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch, LSTM_train = False) #
-    val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
-    print("actor with delay", val_acc)
-    if val_acc > best_val_acc1:
-        torch.save(actorModel.state_dict(), 'savedModels/actor_with_delay.pt')
-        best_val_acc1 = val_acc
-    print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
-print("Reinforcement Done!!!!")
+# criticModel.load_state_dict(torch.load('savedModels/critic_with_delay.pt')) #我加的这句
+# actorModel.load_state_dict(torch.load('savedModels/actor_with_delay.pt')) #我加的这句，目的是直接导入已经训练的模型
+# # best_val_acc1 = 810.5
+# best_val_acc1=0
+# for epoch in range(8):
+#     print("actor part")
+#     train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch, LSTM_train = False) #
+#     val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
+#     print("actor with delay", val_acc)
+#     if val_acc > best_val_acc1:
+#         torch.save(actorModel.state_dict(), 'savedModels/actor_with_delay.pt')
+#         best_val_acc1 = val_acc
+#     print(f'Epoch: {epoch+1:02}, Train Loss: {train_loss:.3f}, Train Acc: {train_acc:.2f}%, Val. Loss: {val_loss:3f}, Val. Acc: {val_acc:.2f}%')
+# print("Reinforcement Done!!!!")
   
 
-criticModel.load_state_dict(torch.load('savedModels/critic_with_delay.pt')) #我加的这句
+# criticModel.load_state_dict(torch.load('savedModels/critic_with_delay.pt')) #我加的这句
 actorModel.load_state_dict(torch.load('savedModels/actor_with_delay.pt'))
 print("Model Loaded..")
 # test_loss, test_acc = eval_model(actorModel, test_iter)  #test acc, only actor
 # print("test acc, only actor:", test_acc)
-val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
-print("eval_model_RL", val_acc)
+# val_loss, val_acc = eval_model_RL(criticModel, actorModel,  valid_iter)
+# print("eval_model_RL", val_acc)
 best_val_acc2 = 0 # I add
 # criticModel.load_state_dict(torch.load('savedModels/critic_with_delay_joint.pt'))
 # actorModel.load_state_dict(torch.load('savedModels/actor_with_delay_joint.pt')) 
@@ -576,7 +576,7 @@ best_val_acc2 = 0 # I add
 # print(best_val_acc2)
 
 # asasa
-for epoch in range(10):
+for epoch in range(4):
     print(" joint part")
     train_loss, train_acc = train_model(criticModel, actorModel, train_iter, epoch)
     val_loss, val_acc = eval_model_RL(criticModel, actorModel, valid_iter)
